@@ -65,7 +65,7 @@ public class PowerScheduleService {
 
     private final TimingStrategyService timingStrategyService;
 
-    public static final long SCHEDULE_RATE = 15000;
+    public static final long SCHEDULE_RATE = 1000;
 
 
     public void scheduleCronJob() {
@@ -148,7 +148,7 @@ public class PowerScheduleService {
     private void scheduleCronJobCore(List<Long> appIds) {
 
         long nowTime = System.currentTimeMillis();
-        long timeThreshold = nowTime + 2 * SCHEDULE_RATE;
+        long timeThreshold = nowTime + 1 * SCHEDULE_RATE;
         Lists.partition(appIds, MAX_APP_NUM).forEach(partAppIds -> {
 
             try {
@@ -206,7 +206,7 @@ public class PowerScheduleService {
     private void scheduleWorkflowCore(List<Long> appIds) {
 
         long nowTime = System.currentTimeMillis();
-        long timeThreshold = nowTime + 2 * SCHEDULE_RATE;
+        long timeThreshold = nowTime +  SCHEDULE_RATE;
         Lists.partition(appIds, MAX_APP_NUM).forEach(partAppIds -> {
             List<WorkflowInfoDO> wfInfos = workflowInfoRepository.findByAppIdInAndStatusAndTimeExpressionTypeAndNextTriggerTimeLessThanEqual(partAppIds, SwitchableStatus.ENABLE.getV(), TimeExpressionType.CRON.getV(), timeThreshold);
 
